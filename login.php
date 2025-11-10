@@ -1,4 +1,6 @@
 <?php
+include_once("config.inc.php");
+// Redirigir a index.php si ya hay una sesión activa
 session_start();
 if (isset($_SESSION["cidusuario"])){
     header("Location:". $GLOBALS["raiz_sitio"]."index.php");

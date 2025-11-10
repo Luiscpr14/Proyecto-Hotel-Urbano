@@ -28,7 +28,6 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
                 <a href="funciones/logout.php">Cerrar Sesión</a>
             <?php else: ?>
                 <a href="login.php">Iniciar Sesión</a>
-                <a href="registro.php">Registrarse</a>
             <?php endif; ?>
         </nav>
     </header>
@@ -38,7 +37,7 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
         <!-- Alertar a visitantes de funciones restringidas -->
         <?php if (!$sesion_activa): ?>
             <div class="alerta-info">
-                <p>⚠️ Estás navegando como visitante. <a href="login.php">Inicia sesión</a> o <a href="registro.php">regístrate</a> para poder hacer reservaciones.</p>
+                <p>Estás navegando como <b>visitante</b>. <a href="login.php">Inicia sesión</a> para poder hacer reservaciones.</p>
             </div>
         <?php endif; ?>
 
