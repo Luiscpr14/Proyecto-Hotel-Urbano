@@ -8,14 +8,18 @@ if (isset($_SESSION["cidusuario"])){
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos/generales.css">
     <title>Iniciar Sesión</title>
 </head>
 <body>
     <h1>Iniciar Sesión</h1>
+    <?php if (isset($_GET['error'])): ?>
+        <p class="error">Usuario o contraseña incorrectos. Inténtelo de nuevo.</p>
+    <?php endif; ?>
     <form action="funciones/autenticar_login.php" method="post">
         <label for="usuario">Usuario:</label>
         <input type="text" id="usuario" name="txt_usuario" required><br><br>

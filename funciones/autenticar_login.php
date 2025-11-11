@@ -20,10 +20,9 @@ if (isset($_POST['btn_login']) && $_POST['btn_login'] == 'Iniciar Sesión'){
 	   iniciarSesion($adatos);
 	   $curl = "Location:".$GLOBALS["raiz_sitio"]."index.php";
    }
-   /*else {
-        $cerror = "<p>Usuario o contraseña incorrectos.</p> <br>";
-   }*/
-  
+   else {
+        $curl = "Location:".$GLOBALS["raiz_sitio"]."login.php?error=1";
+   };
    cerrarConexion($pconexion);
 }
 

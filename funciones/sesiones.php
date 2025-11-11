@@ -10,6 +10,16 @@ function validarSesion(){
     }
 }
 
+function validarAdmin(){
+    //La función session_start() carga las variables registradas en el arreglo $_SESSION
+    //No es necesario llamar sesion_start, ValidarAdmin siempre se llama después de validarSesion
+    if ($_SESSION["ctipo_usuario"] != "admin"){
+        $cdestino="Location:".$GLOBALS["raiz_sitio"]."index.php";
+        header($cdestino);
+        exit();
+    }
+}
+
 function iniciarSesion($avar){
 
     session_start();
