@@ -99,8 +99,8 @@ function listarPorCategoria() {
         $ccontenido .= "<td colspan='15'><h3>Habitaciones ".$cnombre_categoria."</h3></td></tr>";
 
         //Obtener las habitaciones pertenecientes a la categoría
-        $cquery = "SELECT id_habitacion, numero, precio, capacidad, disponible, descripcion, imagen";
-        $cquery .= " FROM habitaciones WHERE disponible = 1 AND categoria = '$cnombre_categoria' ORDER BY numero ASC";
+        $cquery = "SELECT id_habitacion, numero, precio, capacidad, disponibles, descripcion, imagen";
+        $cquery .= " FROM habitaciones WHERE disponibles > 0 AND categoria = '$cnombre_categoria' ORDER BY numero ASC";
 
         $lresultado = mysqli_query($pconexion, $cquery);
         if(!$lresultado) {
@@ -113,7 +113,7 @@ function listarPorCategoria() {
         if(mysqli_num_rows($lresultado) > 0) {
             while ($adatos = mysqli_fetch_array($lresultado, MYSQLI_ASSOC)) {
                 $cid_habitacion = $adatos['id_habitacion'];
-                $cestado = ($adatos['disponible'] == 1) ? 'Disponible' : 'Ocupado';
+                $cestado = ($adatos['disponibles'] > 0) ? 'Disponible' : 'Ocupado';
 
                 $ccontenido .= "<tr>";
                 $ccontenido .= "<td align='center'>".$adatos['numero']."</td>";
@@ -162,7 +162,7 @@ function listarHabitacionesAdmin(){
     $pconexion = abrirConexion();
     seleccionarBaseDatos($pconexion);
     
-    $cquery = "SELECT id_habitacion, numero, categoria, precio, capacidad, disponible, descripcion, imagen";
+    $cquery = "SELECT id_habitacion, numero, categoria, precio, capacidad, disponibles, descripcion, imagen";
     $cquery .= " FROM habitaciones";
     $cquery .= " WHERE activo = 1";
     $cquery .= " ORDER BY numero";
