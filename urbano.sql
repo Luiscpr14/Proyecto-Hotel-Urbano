@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2025 at 11:28 PM
+-- Generation Time: Nov 13, 2025 at 03:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,8 +31,7 @@ CREATE TABLE `detalle_reservacion` (
   `id_detalle` int(11) NOT NULL,
   `id_reservacion` int(11) DEFAULT NULL,
   `id_habitacion` int(11) DEFAULT NULL,
-  `cantidad` int(11) NOT NULL,
-  `precio_unitario` decimal(10,2) NOT NULL
+  `precio_cobrado` decimal(10,2) NOT NULL COMMENT 'Precio al momento de la reserva'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -43,24 +42,15 @@ CREATE TABLE `detalle_reservacion` (
 
 CREATE TABLE `habitaciones` (
   `id_habitacion` int(11) NOT NULL,
-  `numero` varchar(10) NOT NULL,
-  `categoria` varchar(50) NOT NULL,
+  `numero` varchar(10) NOT NULL COMMENT 'Número físico de la habitación (ej: 101, 201)',
+  `categoria` varchar(50) NOT NULL COMMENT 'Sencilla, Doble, Suite, etc.',
   `precio` decimal(10,2) NOT NULL,
-  `disponibles` int(11) NOT NULL,
-  `capacidad` int(11) NOT NULL,
+  `capacidad` int(11) NOT NULL COMMENT 'Cuántas personas caben',
+  `disponible` tinyint(1) DEFAULT 1 COMMENT '1=disponible, 0=ocupada',
   `descripcion` text DEFAULT NULL,
   `imagen` varchar(255) DEFAULT NULL,
-  `activo` tinyint(1) DEFAULT 1
+  `activo` tinyint(1) DEFAULT 1 COMMENT 'Si está activa en el catálogo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `habitaciones`
---
-
-INSERT INTO `habitaciones` (`id_habitacion`, `numero`, `categoria`, `precio`, `disponibles`, `capacidad`, `descripcion`, `imagen`, `activo`) VALUES
-(1, '101', 'Sencilla', 800.00, 5, 1, 'Habitación sencilla ideal para viajeros de negocios', NULL, 1),
-(2, '201', 'Doble', 1200.00, 8, 2, 'Habitación doble con vista a la ciudad', NULL, 1),
-(3, '301', 'Suite', 2500.00, 3, 4, 'Suite ejecutiva con sala de reuniones', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -75,7 +65,7 @@ CREATE TABLE `reservaciones` (
   `fecha_checkin` date NOT NULL,
   `fecha_checkout` date NOT NULL,
   `total` decimal(10,2) NOT NULL,
-  `estado` enum('pendiente','aceptada','cancelada') DEFAULT 'pendiente'
+  `estado` enum('pendiente','confirmada','cancelada') DEFAULT 'pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -92,14 +82,6 @@ CREATE TABLE `usuarios` (
   `tipo_usuario` enum('admin','huesped') DEFAULT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `usuarios`
---
-
-INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasena`, `email`, `tipo_usuario`, `fecha_registro`) VALUES
-(1, 'admin', 'admin123', 'admin@hotel.com', 'admin', '2025-11-08 17:15:22'),
-(2, 'huesped1', 'huesped123', 'huesped@email.com', 'huesped', '2025-11-08 17:15:22');
 
 --
 -- Indexes for dumped tables
@@ -148,7 +130,7 @@ ALTER TABLE `detalle_reservacion`
 -- AUTO_INCREMENT for table `habitaciones`
 --
 ALTER TABLE `habitaciones`
-  MODIFY `id_habitacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_habitacion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `reservaciones`
@@ -160,7 +142,7 @@ ALTER TABLE `reservaciones`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
