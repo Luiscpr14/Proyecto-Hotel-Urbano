@@ -1,7 +1,20 @@
 p.error{
     color: red;
 }
+p.estado{
+    color: green;
+}
 #eliminar_icono, #editar_icono {
     width: 35px;
     height: auto;
+}
+.txt_busqueda{
+    width: 60%; 
+    padding: 10px;
+    font-size: 16px;    
+}
+.btn_buscar{
+    padding: 10px 20px;
+    font-size: 16px; 
+    cursor: pointer;
 }

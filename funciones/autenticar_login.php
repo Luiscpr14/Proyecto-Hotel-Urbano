@@ -2,7 +2,7 @@
 include_once("../config.inc.php");
 include_once("acceso_bd.php");
 include_once("sesiones.php");
-$curl = '';
+//$curl = '';
 $curl = "Location:".$GLOBALS["raiz_sitio"]."login.php";
 if (isset($_POST['btn_login']) && $_POST['btn_login'] == 'Iniciar Sesión'){
     $pconexion = abrirConexion();
@@ -19,11 +19,11 @@ if (isset($_POST['btn_login']) && $_POST['btn_login'] == 'Iniciar Sesión'){
     if (!empty($adatos) && $adatos['nombre_usuario'] == $cusuario && $adatos['contrasena'] == $ccontrasena){
 	   iniciarSesion($adatos);
 	   $curl = "Location:".$GLOBALS["raiz_sitio"]."index.php";
-   }
-   else {
+     }
+     else {
         $curl = "Location:".$GLOBALS["raiz_sitio"]."login.php?error=1";
-   };
-   cerrarConexion($pconexion);
+     }
+     cerrarConexion($pconexion);
 }
 
 header($curl);

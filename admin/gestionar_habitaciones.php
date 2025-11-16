@@ -32,7 +32,7 @@ validarAdmin();
         <table border="1" cellpadding="10">
             <thead>
                 <tr>
-                    <th>Número</th>
+                    <th>Código</th>
                     <th width="10">&nbsp;</th>
                     <th>Categoría</th>
                     <th width="10">&nbsp;</th>
@@ -40,7 +40,7 @@ validarAdmin();
                     <th width="10">&nbsp;</th>
                     <th>Capacidad</th>
                     <th width="10">&nbsp;</th>
-                    <th>Estado</th>
+                    <th>Disponibles</th>
                     <th width="10">&nbsp;</th>
                     <th>Imagen</th>
                     <th width="10">&nbsp;</th>

@@ -126,7 +126,7 @@ function recuperarInfoHabitacion($cid_habitacion){
     $pconexion = abrirConexion();
     seleccionarBaseDatos($pconexion);
 
-    $cquery = "SELECT id_habitacion, numero, categoria, descripcion, imagen, precio, capacidad, disponible FROM habitaciones";
+    $cquery = "SELECT id_habitacion, codigo, categoria, descripcion, imagen, precio, capacidad, disponibles FROM habitaciones";
     $cquery .= " WHERE id_habitacion = $cid_habitacion";
 
     $adatos = extraerRegistro($pconexion, $cquery);

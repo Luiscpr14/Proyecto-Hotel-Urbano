@@ -30,7 +30,6 @@ if (isset($_GET["id_habitacion"])) {
     $cquery = "DELETE FROM habitaciones";
     $cquery .= " WHERE id_habitacion = $cid_habitacion";
     borrarDatos($pconexion, $cquery);
-    
     cerrarConexion($pconexion);
 }
 

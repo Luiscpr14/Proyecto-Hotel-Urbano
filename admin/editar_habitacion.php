@@ -25,7 +25,7 @@ $adatos = recuperarInfoHabitacion($_GET['id_habitacion']);
         <a href="../funciones/logout.php" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?');">Cerrar Sesión</a>
     </nav>
     <main>
-        <h2>Editar habitación #<?php echo $adatos['numero']; ?>!</h2>
+        <h2>Editar habitaciones código: <?php echo $adatos['codigo']; ?></h2>
 
         <form action="editar_habitacion.php" method="POST" enctype="multipart/form-data">
         <!-- Campo oculto con el ID -->
@@ -33,8 +33,8 @@ $adatos = recuperarInfoHabitacion($_GET['id_habitacion']);
             
             <table>
                 <tr>
-                    <td><label for="numero">Número de habitación:</label></td>
-                    <td><input type="text" id="numero" name="txt_numero" value="<?php echo ($adatos['numero']); ?>" required></td>
+                    <td><label for="codigo">Código de habitaciones:</label></td>
+                    <td><input type="text" id="codigo" name="txt_codigo" value="<?php echo ($adatos['codigo']); ?>" required></td>
                 </tr>
                 <tr>
                     <td><label for="categoria">Categoría:</label></td>
@@ -57,10 +57,9 @@ $adatos = recuperarInfoHabitacion($_GET['id_habitacion']);
                     <td><input type="number" id="capacidad" name="txt_capacidad" min="1" value="<?php echo $adatos['capacidad']; ?>" required></td>
                 </tr>
                 <tr>
-                    <td><label for="disponible">Estado:</label></td>
+                    <td><label for="disponibles">Cuartos disponibles:</label></td>
                     <td>
-                        <input type="checkbox" id="disponible" name="chk_disponible" value="1" <?php echo ($adatos['disponible'] == 1) ? 'checked' : ''; ?>>
-                        <label for="disponible">Disponible</label>
+                        <input type="number" id="disponibles" name="txt_disponibles" min="0" value="<?php echo $adatos['disponibles']; ?>" required>
                     </td>
                 </tr>
                 <tr>

@@ -10,11 +10,11 @@ if (isset($_POST["btn_editar"]) && $_POST["btn_editar"] == "Guardar Cambios"){
     seleccionarBaseDatos($pconexion);
 
     $cid_habitacion = $_POST["hdn_id"];
-    $cnumero = $_POST["txt_numero"];
+    $ccodigo = $_POST["txt_codigo"];
     $ccategoria = $_POST["txt_categoria"];
     $nprecio = $_POST["txt_precio"];
     $ncapacidad = $_POST["txt_capacidad"];
-    $ndisponible = isset($_POST["chk_disponible"]) ? 1 : 0;
+    $ndisponibles = $_POST["txt_disponibles"];
     $cdescripcion = $_POST["txt_descripcion"];
 
     // Verificar si se subió una nueva imagen
@@ -36,15 +36,15 @@ if (isset($_POST["btn_editar"]) && $_POST["btn_editar"] == "Guardar Cambios"){
         // Mover la imagen a la carpeta de destino
         $carpeta_destino = "../imagenes/habitaciones/";
         $extension = pathinfo($cnombre_imagen, PATHINFO_EXTENSION);
-        $cnombre_imagen = "hab_" . $cnumero . "_" . time() . "." . $extension;
+        $cnombre_imagen = "hab_" . $ccodigo . "_" . time() . "." . $extension;
         move_uploaded_file($_FILES["fl_imagen"]["tmp_name"], $carpeta_destino . $cnombre_imagen);
 
         $cquery = "UPDATE habitaciones";
-        $cquery .= " SET numero = '$cnumero',";
+        $cquery .= " SET codigo = '$ccodigo',";
         $cquery .= " categoria = '$ccategoria',";
         $cquery .= " precio = $nprecio,";
         $cquery .= " capacidad = $ncapacidad,";
-        $cquery .= " disponible = $ndisponible,";
+        $cquery .= " disponibles = $ndisponibles,";
         $cquery .= " descripcion = '$cdescripcion',";
         $cquery .= " imagen = '$cnombre_imagen'";
         $cquery .= " WHERE id_habitacion = $cid_habitacion";
@@ -52,11 +52,11 @@ if (isset($_POST["btn_editar"]) && $_POST["btn_editar"] == "Guardar Cambios"){
     else{
         // No se subió imagen nueva
         $cquery = "UPDATE habitaciones";
-        $cquery .= " SET numero = '$cnumero',";
+        $cquery .= " SET codigo = '$ccodigo',";
         $cquery .= " categoria = '$ccategoria',";
         $cquery .= " precio = $nprecio,";
         $cquery .= " capacidad = $ncapacidad,";
-        $cquery .= " disponible = $ndisponible,";
+        $cquery .= " disponibles = $ndisponibles,";
         $cquery .= " descripcion = '$cdescripcion'";
         $cquery .= " WHERE id_habitacion = $cid_habitacion";
     }

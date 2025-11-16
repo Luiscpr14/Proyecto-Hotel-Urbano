@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2025 at 11:28 PM
+-- Generation Time: Nov 16, 2025 at 02:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,7 @@ CREATE TABLE `detalle_reservacion` (
 
 CREATE TABLE `habitaciones` (
   `id_habitacion` int(11) NOT NULL,
-  `numero` varchar(10) NOT NULL,
+  `codigo` varchar(5) NOT NULL,
   `categoria` varchar(50) NOT NULL,
   `precio` decimal(10,2) NOT NULL,
   `disponibles` int(11) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `habitaciones` (
 -- Dumping data for table `habitaciones`
 --
 
-INSERT INTO `habitaciones` (`id_habitacion`, `numero`, `categoria`, `precio`, `disponibles`, `capacidad`, `descripcion`, `imagen`, `activo`) VALUES
+INSERT INTO `habitaciones` (`id_habitacion`, `codigo`, `categoria`, `precio`, `disponibles`, `capacidad`, `descripcion`, `imagen`, `activo`) VALUES
 (1, '101', 'Sencilla', 800.00, 5, 1, 'Habitación sencilla ideal para viajeros de negocios', NULL, 1),
 (2, '201', 'Doble', 1200.00, 8, 2, 'Habitación doble con vista a la ciudad', NULL, 1),
 (3, '301', 'Suite', 2500.00, 3, 4, 'Suite ejecutiva con sala de reuniones', NULL, 1);
@@ -118,7 +118,7 @@ ALTER TABLE `detalle_reservacion`
 --
 ALTER TABLE `habitaciones`
   ADD PRIMARY KEY (`id_habitacion`),
-  ADD UNIQUE KEY `numero` (`numero`);
+  ADD UNIQUE KEY `numero` (`codigo`);
 
 --
 -- Indexes for table `reservaciones`

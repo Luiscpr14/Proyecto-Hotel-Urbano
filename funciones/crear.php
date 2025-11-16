@@ -5,11 +5,11 @@ function agregarHabitacion(){
     $cmensaje= "";
     if(isset($_POST["btn_agregar"]) && $_POST["btn_agregar"] == "Agregar Habitación"){
 
-        $cnumero = $_POST["txt_numero"];
+        $ccodigo = $_POST["txt_codigo"];
         $ccategoria = $_POST["slct_categoria"];
         $nprecio = $_POST["txt_precio"];
         $ncapacidad = $_POST["txt_capacidad"];
-        $ndisponible = isset($_POST["chk_disponible"]) ? 1 : 0;
+        $ndisponibles = $_POST["txt_disponibles"];
         $cdescripcion = $_POST["txt_descripcion"];
         
         $cnombre_imagen = "sin imagen asociada";
@@ -28,21 +28,21 @@ function agregarHabitacion(){
             
             // Generar nombre único
             $extension = pathinfo($cnombre_imagen, PATHINFO_EXTENSION);
-            $cnombre_imagen = "hab_" . $cnumero . "_" . time() . "." . $extension;
+            $cnombre_imagen = "habs_" . $ccodigo . "_" . time() . "." . $extension;
             
             move_uploaded_file($_FILES["fl_imagen"]["tmp_name"], $carpeta_destino . $cnombre_imagen);
         }
         $pconexion = abrirConexion();
         seleccionarBaseDatos($pconexion);
 
-        $cquery = "SELECT numero FROM habitaciones";
-        $cquery .= " WHERE numero = '$cnumero'";
+        $cquery = "SELECT codigo FROM habitaciones";
+        $cquery .= " WHERE codigo = '$ccodigo'";
 
         if (!existeRegistro($pconexion, $cquery)) {
             
             $cquery = "INSERT INTO habitaciones";
-            $cquery .= " (numero, imagen, precio, capacidad, disponible, descripcion, categoria)";
-            $cquery .= " VALUES ('$cnumero', '$cnombre_imagen', $nprecio, $ncapacidad, $ndisponible, '$cdescripcion', '$ccategoria')";
+            $cquery .= " (codigo, imagen, precio, capacidad, disponibles, descripcion, categoria)";
+            $cquery .= " VALUES ('$ccodigo', '$cnombre_imagen', $nprecio, $ncapacidad, $ndisponibles, '$cdescripcion', '$ccategoria')";
             if (insertarDatos($pconexion, $cquery)) {
                 $cmensaje = "Habitación registrada con &eacute;xito";
             }
@@ -51,7 +51,7 @@ function agregarHabitacion(){
             }
         }
         else {
-            $cmensaje = "Ya existe una habitaci&oacute;n con el n&uacute;mero: $cnumero";
+            $cmensaje = "Ya existe una habitaci&oacute;n con el c&oacute;digo: $ccodigo";
         }
         cerrarConexion($pconexion);
 

@@ -9,10 +9,10 @@ include_once("acceso_bd.php");
     //Selección de la base de datos
     seleccionarBaseDatos($pconexion);
     //Construcción de la sentencia SQL
-    $cquery = "SELECT id_habitacion, numero, categoria, precio, capacidad, disponible, descripcion, imagen";
+    $cquery = "SELECT id_habitacion, codigo, categoria, precio, capacidad, disponibles, descripcion, imagen";
     $cquery .= " FROM habitaciones";
     $cquery .= " WHERE activo = 1";
-    $cquery .= " ORDER BY numero";
+    $cquery .= " ORDER BY categoria";
 
     //Se ejecuta la sentencia SQL
     $lresult = mysqli_query($pconexion, $cquery);
@@ -29,9 +29,8 @@ include_once("acceso_bd.php");
             //Recorre los registros arrojados por la consulta SQL
             while ($adatos = mysqli_fetch_array($lresult, MYSQLI_ASSOC)){
                 $cid_habitacion = $adatos["id_habitacion"];
-                $cestado = ($adatos["disponible"] == 1) ? "Disponible" : "Ocupada";
                 $ccontenido .= "<tr>";
-                $ccontenido .= "<td align=\"center\">".$adatos["numero"]."</td>";
+                $ccontenido .= "<td align=\"center\">".$adatos["codigo"]."</td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
                 $ccontenido .= "<td>".$adatos["categoria"]."</td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
@@ -39,7 +38,7 @@ include_once("acceso_bd.php");
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
                 $ccontenido .= "<td align=\"center\">".$adatos["capacidad"]."</td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
-                $ccontenido .= "<td align=\"center\">".$cestado."</td>";
+                $ccontenido .= "<td align=\"center\">".$adatos["disponibles"]."</td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
                 $ccontenido .= "<td><img src=\"imagenes/habitaciones/".$adatos["imagen"]."\" alt=\"Imagen de la habitación\" width=\"100\"></td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
@@ -96,11 +95,11 @@ function listarPorCategoria() {
 
         //Header de la categoria
         $ccontenido .= "<tr class='header-categoria'>";
-        $ccontenido .= "<td colspan='15'><h3>Habitaciones ".$cnombre_categoria."</h3></td></tr>";
+        $ccontenido .= "<td colspan='15'><h3>".$cnombre_categoria."s</h3></td></tr>";
 
         //Obtener las habitaciones pertenecientes a la categoría
-        $cquery = "SELECT id_habitacion, numero, precio, capacidad, disponibles, descripcion, imagen";
-        $cquery .= " FROM habitaciones WHERE disponibles > 0 AND categoria = '$cnombre_categoria' ORDER BY numero ASC";
+        $cquery = "SELECT id_habitacion, codigo, precio, capacidad, disponibles, descripcion, imagen";
+        $cquery .= " FROM habitaciones WHERE activo = 1 AND categoria = '$cnombre_categoria'";
 
         $lresultado = mysqli_query($pconexion, $cquery);
         if(!$lresultado) {
@@ -113,10 +112,9 @@ function listarPorCategoria() {
         if(mysqli_num_rows($lresultado) > 0) {
             while ($adatos = mysqli_fetch_array($lresultado, MYSQLI_ASSOC)) {
                 $cid_habitacion = $adatos['id_habitacion'];
-                $cestado = ($adatos['disponibles'] > 0) ? 'Disponible' : 'Ocupado';
 
                 $ccontenido .= "<tr>";
-                $ccontenido .= "<td align='center'>".$adatos['numero']."</td>";
+                $ccontenido .= "<td align='center'>".$adatos['codigo']."</td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
                 $ccontenido .= "<td>".$cnombre_categoria."</td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
@@ -124,7 +122,7 @@ function listarPorCategoria() {
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
                 $ccontenido .= "<td align='center'>".$adatos['capacidad']."</td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
-                $ccontenido .= "<td align='center'>".$cestado."</td>";
+                $ccontenido .= "<td align='center'>".$adatos['disponibles']."</td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
                 $ccontenido .= "<td><img src='imagenes/habitaciones/".$adatos["imagen"]."' alt=\"Imagen de la habitación\" width=\"100\"></td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
@@ -161,10 +159,10 @@ function listarHabitacionesAdmin(){
     $pconexion = abrirConexion();
     seleccionarBaseDatos($pconexion);
     
-    $cquery = "SELECT id_habitacion, numero, categoria, precio, capacidad, disponibles, descripcion, imagen";
+    $cquery = "SELECT id_habitacion, codigo, categoria, precio, capacidad, disponibles, descripcion, imagen";
     $cquery .= " FROM habitaciones";
     $cquery .= " WHERE activo = 1";
-    $cquery .= " ORDER BY numero";
+    //$cquery .= " ORDER BY codigo";
     
     $lresult = mysqli_query($pconexion, $cquery);
     
@@ -178,9 +176,8 @@ function listarHabitacionesAdmin(){
         if(mysqli_num_rows($lresult) > 0){
             while ($adatos = mysqli_fetch_array($lresult, MYSQLI_ASSOC)){
                 $cid_habitacion = $adatos["id_habitacion"];
-                $cestado = ($adatos["disponibles"] > 0) ? "Disponible" : "Ocupada";
                 $ccontenido .= "<tr>";
-                $ccontenido .= "<td align=\"center\">".$adatos["numero"]."</td>";
+                $ccontenido .= "<td align=\"center\">".$adatos["codigo"]."</td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
                 $ccontenido .= "<td>".$adatos["categoria"]."</a></td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
@@ -188,7 +185,7 @@ function listarHabitacionesAdmin(){
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
                 $ccontenido .= "<td align=\"center\">".$adatos["capacidad"]."</td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
-                $ccontenido .= "<td align=\"center\">".$cestado."</td>";
+                $ccontenido .= "<td align=\"center\">".$adatos["disponibles"]."</td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";
                 $ccontenido .= "<td><img src=\"../imagenes/habitaciones/".$adatos["imagen"]."\" alt=\"Imagen de la habitación\" width=\"100\"></td>";
                 $ccontenido .= "<td width=\"10\">&nbsp;</td>";

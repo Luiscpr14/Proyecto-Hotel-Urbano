@@ -11,7 +11,9 @@ validarAdmin();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear</title>
+    <link rel="stylesheet" href="../estilos/generales.css">
 </head>
 <body>
     <h1>Agregar Nueva Habitación</h1>
@@ -28,8 +30,8 @@ validarAdmin();
             <p align="center" class="estado"><?php echo agregarHabitacion(); ?></p>
             <table>
                 <tr>
-                    <td><label for="numero">Número de habitación:</label></td>
-                    <td><input type="text" id="numero" name="txt_numero" required></td>
+                    <td><label for="codigo">Código de habitaciones:</label></td>
+                    <td><input type="text" id="codigo" name="txt_codigo" required></td>
                 </tr>
                 <tr>
                     <td><label for="categoria">Categoría:</label></td>
@@ -52,10 +54,9 @@ validarAdmin();
                     <td><input type="number" id="capacidad" name="txt_capacidad" min="1" required></td>
                 </tr>
                 <tr>
-                    <td><label for="disponible">Estado:</label></td>
+                    <td><label for="disponibles">Cuartos disponibles:</label></td>
                     <td>
-                        <input type="checkbox" id="disponible" name="chk_disponible" value="1" checked>
-                        <label for="disponible">Disponible</label>
+                        <input type="number" id="disponibles" name="txt_disponibles" min="0" required>
                     </td>
                 </tr>
                 <tr>
