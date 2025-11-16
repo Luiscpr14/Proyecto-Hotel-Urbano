@@ -1,23 +1,26 @@
-<?php
+<?php 
 include_once("config.inc.php");
 include_once("funciones/sesiones.php");
-include_once("funciones/listar.php");
-//No se valida sesión en index.php ya que es una de las páginas accesibles sin iniciar sesión
+include_once("funciones/buscar.php");
+//No se valida sesión en resultados.php ya que es una de las páginas accesibles sin iniciar sesión
 session_start();
 $sesion_activa = isset($_SESSION['cidusuario']);
 $tipo_usuario = $_SESSION['ctipo_usuario'] ?? 'visitante';
 $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
+if (isset($_GET['termino']) || isset($_POST['txt_termino'])) {
+    $termino_busqueda = $_GET['termino'] ?? $_POST['txt_termino'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio -- Hotel Urbano</title>
+    <title>Resultados de búsqueda</title>
     <link rel="stylesheet" href="estilos/generales.css">
 </head>
 <body>
     <header>
-        <h1>Bienvenido al Hotel Urbano</h1>
+        <h1>Búsqueda de Habitaciones</h1>
     </header>
 
     <nav>
@@ -43,20 +46,17 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
             </div>
         <?php endif; ?>
 
-        <!-- Form para buscar habitaciones -->
-        <div class="buscador-principal">
-            <h3>Buscar Habitaciones</h3>
-            <form id="form_busqueda" method="GET" action="resultados.php">
-                <input type="text" class="txt_busqueda" name="termino" placeholder="Busca por número, categoría o descripción..." required>
+        <!-- Buscador pre-llenado con el término buscado -->
+        <div class="buscador-destacado">
+            <h2>Buscar Habitaciones</h2>
+            <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <input type="text" class="txt_busqueda" name="txt_termino" value="<?php echo htmlspecialchars($termino_busqueda); ?>" placeholder="Busca por número, categoría o descripción..." required>
                 <button type="submit" class="btn_buscar">Buscar</button>
             </form>
         </div>
 
         <hr>
-
-        <h3>Habitaciones</h3>
-        <!-- Las habitaciones se generarán dinámicamente desde la base de datos -->
-        <!-- Diseño en tabla temporal para debbugging -->
+        <!-- Resultados de búsqueda -->
         <table border="1" cellpadding="10">
         <thead>
             <tr>
@@ -80,7 +80,7 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
             </tr>
         </thead>
         <tbody>
-            <?php echo listarPorCategoria(); ?>
+            <?php echo buscarHabitaciones(); ?>
         </tbody>
     </table>
     </main>
