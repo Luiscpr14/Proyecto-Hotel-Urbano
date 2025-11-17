@@ -1,14 +1,9 @@
 <?php
-
-session_start();
 include_once("../config.inc.php");
 include_once("acceso_bd.php");
+include_once("sesiones.php");
+validarSesion();
 
-//Validar sesión
-if (!isset($_SESSION['cidusuario'])) {
-    header("Location: ../login.php");
-    exit();
-}
 
 //Validar datos POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

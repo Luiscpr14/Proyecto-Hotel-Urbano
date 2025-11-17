@@ -50,7 +50,7 @@ if (isset($_GET['termino']) || isset($_POST['txt_termino'])) {
         <div class="buscador-destacado">
             <h2>Buscar Habitaciones</h2>
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <input type="text" class="txt_busqueda" name="txt_termino" value="<?php echo htmlspecialchars($termino_busqueda); ?>" placeholder="Busca por número, categoría o descripción..." required>
+                <input type="text" class="txt_busqueda" name="txt_termino" value="<?php echo htmlspecialchars($termino_busqueda); ?>" placeholder="Busca por código, categoría o descripción..." required>
                 <button type="submit" class="btn_buscar">Buscar</button>
             </form>
         </div>

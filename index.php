@@ -45,7 +45,7 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
         <div class="buscador-principal">
             <h3>Buscar Habitaciones</h3>
             <form id="form_busqueda" method="GET" action="resultados.php">
-                <input type="text" class="txt_busqueda" name="termino" placeholder="Busca por número, categoría o descripción..." required>
+                <input type="text" class="txt_busqueda" name="termino" placeholder="Busca por código, categoría o descripción..." required>
                 <button type="submit" class="btn_buscar">Buscar</button>
             </form>
         </div>
