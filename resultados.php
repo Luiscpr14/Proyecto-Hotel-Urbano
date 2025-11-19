@@ -25,6 +25,7 @@ if (isset($_GET['termino']) || isset($_POST['txt_termino'])) {
 
     <nav>
         <a href="index.php">Inicio</a>
+        <a href="carrito.php">Mi Carrito</a>
         <!-- Mostrar enlaces de admin solo si la sesión está activa y el usuario es admin -->
         <?php if ($sesion_activa && $tipo_usuario == 'admin'): ?>
             <a href="admin/gestionar_habitaciones.php">Gestionar Habitaciones</a>
@@ -50,7 +51,7 @@ if (isset($_GET['termino']) || isset($_POST['txt_termino'])) {
         <div class="buscador-destacado">
             <h2>Buscar Habitaciones</h2>
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <input type="text" class="txt_busqueda" name="txt_termino" value="<?php echo htmlspecialchars($termino_busqueda); ?>" placeholder="Busca por número, categoría o descripción..." required>
+                <input type="text" class="txt_busqueda" name="txt_termino" value="<?php echo htmlspecialchars($termino_busqueda); ?>" placeholder="Busca por código, categoría o descripción..." required>
                 <button type="submit" class="btn_buscar">Buscar</button>
             </form>
         </div>
@@ -85,4 +86,5 @@ if (isset($_GET['termino']) || isset($_POST['txt_termino'])) {
     </table>
     </main>
 </body>
+<script src="js/carrito.js"></script>
 </html>

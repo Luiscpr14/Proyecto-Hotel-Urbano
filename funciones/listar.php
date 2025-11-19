@@ -111,7 +111,7 @@ function listarPorCategoria() {
         //Listar habitaciones de la categoria
         if(mysqli_num_rows($lresultado) > 0) {
             while ($adatos = mysqli_fetch_array($lresultado, MYSQLI_ASSOC)) {
-                $cid_habitacion = $adatos['id_habitacion'];
+                //$cid_habitacion = $adatos['id_habitacion'];
 
                 $ccontenido .= "<tr>";
                 $ccontenido .= "<td align='center'>".$adatos['codigo']."</td>";
@@ -129,10 +129,9 @@ function listarPorCategoria() {
                 $ccontenido .= "<td>".$adatos['descripcion']."</td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
                 $ccontenido .= "<td><button type='button' class='btn-reservar' ";
-                $ccontenido .= "onclick=\"Carrito.agregar(".$adatos['id_habitacion'].", '".$adatos['numero']."', ".$adatos['precio'].", '".$cnombre_categoria."')\">";
+                $ccontenido .= "onclick=\"Carrito.agregar(".$adatos['id_habitacion'].", '".$adatos['codigo']."', ".$adatos['precio'].", '".$cnombre_categoria."')\">";
                 $ccontenido .= "Agregar al Carrito";
                 $ccontenido .= "</button></td>";
-
                 $ccontenido .= "</tr>";
             }
         }

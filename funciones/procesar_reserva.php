@@ -1,14 +1,8 @@
 <?php
-
-session_start();
 include_once("../config.inc.php");
 include_once("acceso_bd.php");
-
-//Validar sesión
-if (!isset($_SESSION['cidusuario'])) {
-    header("Location: ../login.php");
-    exit();
-}
+include_once("sesiones.php");
+validarSesion();
 
 //Validar datos POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Error: El carrito está vacío.");
     }
     
-    // --- NUEVO: Calcular días de estancia (noches) ---
+    //Calcular días de estancia (noches)
     try {
         $date_checkin = new DateTime($checkin);
         $date_checkout = new DateTime($checkout);
@@ -43,78 +37,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         die("Error en las fechas: " . $e->getMessage());
     }
-    // --- Fin cálculo de días ---
 
-
-    //Abrir conexión usando tu función
+    //Abrir conexión 
     $conn = abrirConexion();
     seleccionarBaseDatos($conn);
 
     try {
         //Iniciar Transacción
-        $conn->begin_transaction();
+        mysqli_begin_transaction($conn);
 
-        // --- MODIFICADO: Calcular total en base a los días de estancia ---
+        //Calcular total en base a los días de estancia
         $total_por_noche = 0;
         foreach ($carrito as $item) {
             $total_por_noche += ($item['precio'] * $item['cantidad']);
         }
         $total_reserva = $total_por_noche * $dias_estancia;
-        // --- Fin cálculo total ---
 
         //Insertar en tabla 'reservaciones'
         $sql_reserva = "INSERT INTO reservaciones (id_usuario, fecha_checkin, fecha_checkout, total, estado) 
                         VALUES (?, ?, ?, ?, 'aceptada')";
         
-        $stmt = $conn->prepare($sql_reserva);
-        $stmt->bind_param("issd", $id_usuario, $checkin, $checkout, $total_reserva);
+        $stmt = mysqli_prepare($conn, $sql_reserva);
+        mysqli_stmt_bind_param($stmt, "issd", $id_usuario, $checkin, $checkout, $total_reserva);
         
-        if (!$stmt->execute()) {
-            throw new Exception("Error al crear la reservación: " . $stmt->error);
+        if (!mysqli_stmt_execute($stmt)) {
+            throw new Exception("Error al crear la reservación: " . mysqli_error($conn));
         }
-        $id_reserva = $conn->insert_id;
-        $stmt->close();
+        $id_reserva = mysqli_insert_id($conn);
+        mysqli_stmt_close($stmt);
 
         //Procesar cada item del carrito
         $sql_detalle = "INSERT INTO detalle_reservacion (id_reservacion, id_habitacion, cantidad, precio_unitario) 
                         VALUES (?, ?, ?, ?)";
-        $stmt_detalle = $conn->prepare($sql_detalle);
+        $stmt_detalle = mysqli_prepare($conn, $sql_detalle);
 
         //Query para descontar stock
         $sql_update = "UPDATE habitaciones SET disponibles = disponibles - ? 
                        WHERE id_habitacion = ? AND disponibles >= ?";
-        $stmt_update = $conn->prepare($sql_update);
+        $stmt_update = mysqli_prepare($conn, $sql_update);
 
         foreach ($carrito as $item) {
             $id_hab = $item['id'];
             $cantidad = $item['cantidad'];
-            $precio = $item['precio']; // Este sigue siendo el precio unitario por noche
+            $precio = $item['precio'];
 
             // a) Insertar detalle
-            $stmt_detalle->bind_param("iiid", $id_reserva, $id_hab, $cantidad, $precio);
-            if (!$stmt_detalle->execute()) {
-                throw new Exception("Error al guardar detalles.");
+            mysqli_stmt_bind_param($stmt_detalle, "iiid", $id_reserva, $id_hab, $cantidad, $precio);
+            if (!mysqli_stmt_execute($stmt_detalle)) {
+                throw new Exception("Error al guardar detalles: " . mysqli_error($conn));
             }
 
             // b) Descontar disponibilidad
-            // NOTA: Esto descuenta la habitación para todo el rango de fechas.
-            // Una implementación más avanzada requeriría verificar la disponibilidad
-            // por día, pero para este proyecto, descontar el "stock" general funciona.
-            $stmt_update->bind_param("iii", $cantidad, $id_hab, $cantidad);
-            $stmt_update->execute();
+            mysqli_stmt_bind_param($stmt_update, "iii", $cantidad, $id_hab, $cantidad);
+            mysqli_stmt_execute($stmt_update);
 
-            if ($stmt_update->affected_rows === 0) {
-                // Si (disponibles < cantidad), la transacción falla.
+            if (mysqli_affected_rows($conn) === 0) {
                 throw new Exception("No hay suficiente disponibilidad para la habitación: " . $item['numero']);
             }
         }
 
-        $conn->commit();
+        // Confirmar transacción
+        mysqli_commit($conn);
         
-        //Limpiamos la cookie del carrito (Nombre debe coincidir con JS)
+        //Limpiamos la cookie del carrito
         setcookie('carrito_urbano', '', time() - 3600, '/');
 
-        // --- MODIFICADO: Mensaje de éxito con detalles ---
+        // Mensaje de éxito
         echo "<h1>¡Reserva Exitosa!</h1>";
         echo "<p>Tu reserva ha sido procesada.</p>";
         echo "<ul>";
@@ -128,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } catch (Exception $e) {
         //Si algo falla, deshacemos todo
-        $conn->rollback();
+        mysqli_rollback($conn);
         echo "<h1>Error en la reserva</h1>";
         echo "<p>Se ha producido un error y tu reserva no pudo ser completada. No se ha realizado ningún cargo.</p>";
         echo "<p><strong>Detalle:</strong> " . $e->getMessage() . "</p>";
@@ -138,6 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     cerrarConexion($conn);
 
 } else {
-    header("Location: ../index.php");
+    header("Location: ".$GLOBALS["raiz-sitio"]."index.php");
 }
 ?>

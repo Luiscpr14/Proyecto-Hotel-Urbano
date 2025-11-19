@@ -33,7 +33,6 @@ function buscarHabitaciones(){
         
         if (mysqli_num_rows($lresultado_busqueda) > 0){
             while ($habitacion = mysqli_fetch_array($lresultado_busqueda, MYSQLI_ASSOC)) {
-                $cid_habitacion = $habitacion["id_habitacion"];
                 $ccontenido = "<tr>";
                 $ccontenido .= "<td align='center'><strong>".htmlspecialchars($habitacion['codigo'])."</strong></td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
@@ -49,25 +48,17 @@ function buscarHabitaciones(){
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
                 $ccontenido .= "<td>". htmlspecialchars($habitacion['descripcion'])."</td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
-                
-                if (isset($_SESSION['cidusuario'])) {
-                    $ccontenido .= "<td><a href='reservar_habitacion.php?id_habitacion=".$cid_habitacion."'>";
-                    $ccontenido .= "<button>Reservar</button></a></td>";
-                }
+                $ccontenido .= "<td><button type='button' class='btn-reservar' ";
+                $ccontenido .= "onclick=\"Carrito.agregar(".$habitacion['id_habitacion'].", '".$habitacion['codigo']."', ".$habitacion['precio'].", '".$habitacion['categoria']."')\">";
+                $ccontenido .= "Agregar al Carrito";
+                $ccontenido .= "</button></td>";
+
 
                 $ccontenido .= "</tr>";
             }
         }
         else {
             $ccontenido = "<tr><td colspan='15' align='center'>No se encontraron habitaciones que coincidan con el término de búsqueda.</td></tr>";
-            /*
-            $ccontenido .= "<td>Sugerencias: </tr>";
-            $ccontenido .= "<tr><td><ul>";
-            $ccontenido .= "<li>Verifica la ortografía</li>";
-            $ccontenido .= "<li>Intenta con términos más generales</li>";
-            $ccontenido .= "<li>Busca por categoría (Sencilla, Doble, Suite, Ejecutiva)</li>";
-            $ccontenido .= "</ul></td></tr>";
-            */
             $ccontenido .= "</td></tr>";
         }
 

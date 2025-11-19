@@ -21,11 +21,13 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
     </header>
 
     <nav>
-        <a href="index.php">Inicio</a>
+        <a href="index.php">Inicio</a> 
         <a href="carrito.php">Mi Carrito</a>
+        <!-- Mostrar enlaces de admin solo si la sesión está activa y el usuario es admin -->
         <?php if ($sesion_activa && $tipo_usuario == 'admin'): ?>
             <a href="admin/gestionar_habitaciones.php">Gestionar Habitaciones</a>
         <?php endif; ?>
+        <!-- Alternar entre cierre de sesión y acceso a login/registro dependiendo de estado de sesión -->
         <?php if ($sesion_activa): ?>
             <a href="funciones/logout.php" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?');">Cerrar Sesión</a>
         <?php else: ?>
@@ -35,6 +37,7 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
         
     <main>
         <h2>Hola, <?php echo htmlspecialchars($nombre_usuario); ?>!</h2>
+        <!-- Alertar a visitantes de funciones restringidas -->
         <?php if (!$sesion_activa): ?>
             <div class="alerta-info">
                 <p>Estás navegando como <b>visitante</b>. <a href="login.php">Inicia sesión</a> para poder hacer reservaciones.</p>
@@ -45,7 +48,7 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
         <div class="buscador-principal">
             <h3>Buscar Habitaciones</h3>
             <form id="form_busqueda" method="GET" action="resultados.php">
-                <input type="text" class="txt_busqueda" name="termino" placeholder="Busca por número, categoría o descripción..." required>
+                <input type="text" class="txt_busqueda" name="termino" placeholder="Busca por código, categoría o descripción..." required>
                 <button type="submit" class="btn_buscar">Buscar</button>
             </form>
         </div>
