@@ -25,6 +25,7 @@ if (isset($_GET['termino']) || isset($_POST['txt_termino'])) {
 
     <nav>
         <a href="index.php">Inicio</a>
+        <a href="carrito.php">Mi Carrito</a>
         <!-- Mostrar enlaces de admin solo si la sesión está activa y el usuario es admin -->
         <?php if ($sesion_activa && $tipo_usuario == 'admin'): ?>
             <a href="admin/gestionar_habitaciones.php">Gestionar Habitaciones</a>
@@ -85,4 +86,5 @@ if (isset($_GET['termino']) || isset($_POST['txt_termino'])) {
     </table>
     </main>
 </body>
+<script src="js/carrito.js"></script>
 </html>

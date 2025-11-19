@@ -140,19 +140,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkin = document.getElementById('checkin');
         const checkout = document.getElementById('checkout');
 
-        // Validarfecha mínima de checkout al cambiar checkin
-        checkin.addEventListener('change', function() {
+        //Validar fecha mínima de checkout al cambiar checkin
+        const actualizarFechas = function() {
             if (checkin.value) {
-                //Calcular el día siguiente
-                const nextDay = new Date(checkin.value);
-                nextDay.setDate(nextDay.getDate() + 2);
-                checkout.min = nextDay.toISOString().split('T')[0];
-            }
-            Carrito.renderizarTabla(); //Recalcular al cambiar fecha
-        });
+                const fechaCheckin = new Date(checkin.value + 'T00:00:00'); // Forzar hora local/neutra
+                const fechaMinSalida = new Date(fechaCheckin);
+                fechaMinSalida.setDate(fechaCheckin.getDate() + 1);
+                
+                const mes = (fechaMinSalida.getMonth() + 1).toString().padStart(2, '0');
+                const dia = fechaMinSalida.getDate().toString().padStart(2, '0');
+                const anio = fechaMinSalida.getFullYear();
+                const minStr = `${anio}-${mes}-${dia}`;
+                
+                checkout.min = minStr;
 
-        //Recalcular al cambiar fecha de checkout
-        checkout.addEventListener('change', Carrito.renderizarTabla);
+                //Si la fecha de salida seleccionada es menor a la nueva mínima, limpiarla
+                if(checkout.value && checkout.value < minStr) {
+                    checkout.value = minStr;
+                }
+            }
+            Carrito.renderizarTabla();
+        };
+
+        if(checkin) {
+            checkin.addEventListener('change', actualizarFechas);
+            checkin.addEventListener('input', actualizarFechas);
+        }
+
+        if(checkout) {
+            checkout.addEventListener('change', () => Carrito.renderizarTabla());
+            checkout.addEventListener('input', () => Carrito.renderizarTabla());
+        }
 
         //Renderizar tabla inicial
         Carrito.renderizarTabla();
