@@ -13,31 +13,42 @@ validarAdmin();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear</title>
+    <link rel="stylesheet" href="../estilos/admin.css">
     <link rel="stylesheet" href="../estilos/generales.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Agregar Nueva Habitación</h1>
-    
+    <header>
+        <h1>Hotel Urbano <span style="font-size:0.6em; color:#666;">| Administraci&oacute;n</span></h1>
+    </header>
     <nav>
-        <a href="gestionar_habitaciones.php">Volver a gestión</a>
-        <a href="../index.php">Inicio</a>
-        <a href="../funciones/logout.php" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?');">Cerrar Sesión</a>
+        <a href="../index.php">Ir al Sitio Web</a>
+        <a href="../funciones/logout.php" onclick="return confirm('¿Cerrar sesión?');">Cerrar Sesi&oacute;n <i class="fa fa-sign-out-alt" style="margin-left:5px;"></i></a>
     </nav>
-    
-    <hr>
     <main>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>Agregar Nueva Habitaci&oacute;n</h2>
+            <!-- Botón Volver en el cuerpo -->
+            <a href="gestionar_habitaciones.php" class="btn-accion btn-volver"><i class="fa fa-arrow-left"></i> Volver al listado</a>
+        </div>
+        
         <form name="frm_agregar" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
-            <p align="center" class="estado"><?php echo agregarHabitacion(); ?></p>
+            <?php 
+            $mensaje = agregarHabitacion();
+            if($mensaje): ?>
+                <p class="estado"><?php echo $mensaje; ?></p>
+            <?php endif; ?>
+
             <table>
                 <tr>
-                    <td><label for="codigo">Código de habitaciones:</label></td>
-                    <td><input type="text" id="codigo" name="txt_codigo" required></td>
+                    <td><label for="codigo">C&oacute;digo:</label></td>
+                    <td><input type="text" id="codigo" name="txt_codigo" required placeholder="Ej: HAB-101"></td>
                 </tr>
                 <tr>
-                    <td><label for="categoria">Categoría:</label></td>
+                    <td><label for="categoria">Categor&iacute;a:</label></td>
                     <td>
                         <select id="categoria" name="slct_categoria" required>
-                            <option value="">-- Seleccionar uno --</option>
+                            <option value="">-- Seleccionar --</option>
                             <option value="Sencilla">Sencilla</option>
                             <option value="Doble">Doble</option>
                             <option value="Suite">Suite</option>
@@ -46,8 +57,8 @@ validarAdmin();
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="precio">Precio (MXN por noche):</label></td>
-                    <td><input type="number" id="precio" name="txt_precio" step="0.01" min="0" required></td>
+                    <td><label for="precio">Precio (MXN):</label></td>
+                    <td><input type="number" id="precio" name="txt_precio" step="0.01" min="0" required placeholder="0.00"></td>
                 </tr>
                 <tr>
                     <td><label for="capacidad">Capacidad (personas):</label></td>
@@ -60,8 +71,8 @@ validarAdmin();
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="descripcion">Descripción:</label></td>
-                    <td><textarea id="descripcion" name="txt_descripcion" rows="4" cols="40" required></textarea></td>
+                    <td><label for="descripcion">Descripci&oacute;n:</label></td>
+                    <td><textarea id="descripcion" name="txt_descripcion" rows="4" required placeholder="Detalles de la habitación..."></textarea></td>
                 </tr>
                 <tr>
                     <td><label for="imagen">Imagen:</label></td>
@@ -69,8 +80,8 @@ validarAdmin();
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <hr>
-                        <input type="submit" name="btn_agregar" value="Agregar Habitación">
+                        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                        <input type="submit" name="btn_agregar" value="Guardar Habitación">
                     </td>
                 </tr>
             </table>

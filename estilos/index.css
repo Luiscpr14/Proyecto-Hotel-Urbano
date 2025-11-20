@@ -7,57 +7,6 @@
     --gris-claro: #e0e0e0;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--color-fondo);
-    color: var(--color-texto);
-}
-
-/*HEADER Y NAV*/
-header {
-    background-color: var(--blanco);
-    padding: 10px 20px;
-    border-bottom: 1px solid var(--gris-claro);
-}
-
-header h1 {
-    color: var(--color-primario);
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-nav {
-    background-color: var(--color-primario);
-    padding: 0 20px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 50px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-nav a {
-    color: var(--blanco);
-    text-decoration: none;
-    padding: 0 15px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    transition: background 0.3s;
-}
-
-nav a:hover {
-    background-color: var(--color-secundario);
-}
-
 /*BUSCADOR Y BIENVENIDA*/
 main {
     max-width: 1200px;

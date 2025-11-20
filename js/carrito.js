@@ -19,8 +19,8 @@ const Carrito = {
         document.cookie = `${NOMBRE_COOKIE}=${str}; path=/; max-age=86400`;
     },
 
-    //Función llamada por el botón en listar.php
-    agregar: function(id, numero, precio, categoria) {
+    // CAMBIO: Ahora recibimos 'imagen'
+    agregar: function(id, numero, precio, categoria, imagen) {
         let carrito = this.obtener();
         //Verificar si ya está en el carrito
         let existe = carrito.find(item => item.id === id);
@@ -29,7 +29,7 @@ const Carrito = {
             existe.cantidad++;
             alert(`Se aumentó la cantidad de la habitación ${numero}.`);
         } else {
-            carrito.push({ id, numero, precio, categoria, cantidad: 1 });
+            carrito.push({ id, numero, precio, categoria, imagen, cantidad: 1 });
             alert(`Habitación ${numero} agregada al carrito.`);
         }
         
@@ -51,7 +51,7 @@ const Carrito = {
     },
 
     eliminar: function(id) {
-        if(!confirm("¿Eliminar esta habitación?")) return;
+        if(!confirm("¿Eliminar esta habitación del carrito?")) return;
         let carrito = this.obtener();
         carrito = carrito.filter(item => item.id !== id);
         this.guardar(carrito);
@@ -61,6 +61,8 @@ const Carrito = {
     //Calcula días y total estancia
     renderizarTabla: function() {
         const tbody = document.getElementById('tabla-carrito');
+        const thead = document.querySelector('table.carrito thead'); // Referencia al header
+        
         if (!tbody) return;
 
         //Referencias a los elementos del DOM
@@ -75,50 +77,79 @@ const Carrito = {
         let html = '';
         let totalPorNoche = 0;
 
+        // Lógica para ocultar/mostrar encabezados
         if (carrito.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" align="center">Carrito vacío</td></tr>';
+            if(thead) thead.style.display = 'none'; // OCULTAR ENCABEZADOS
+            
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" align="center" style="padding:40px;">
+                        <div style="color:#888; font-size:1.1rem;">
+                            <p>Tu carrito está vacío.</p>
+                            <a href="index.php" class="btn-confirmar" style="display:inline-block; background:#666; margin-top:10px; text-decoration:none; width:auto;">Ver Habitaciones</a>
+                        </div>
+                    </td>
+                </tr>`;
+                
             totalNocheSpan.innerText = '0.00';
             diasEstanciaSpan.innerText = '0';
             totalEstanciaSpan.innerText = '0.00';
             if(inputData) inputData.value = '';
             return;
+        } else {
+            if(thead) thead.style.display = 'table-header-group'; // MOSTRAR ENCABEZADOS
         }
 
         //Renderizar filas de la tabla
         carrito.forEach(item => {
             let subtotal = item.precio * item.cantidad;
             totalPorNoche += subtotal;
+            
+            // Fallback por si es un item antiguo sin imagen
+            let imgUrl = item.imagen ? item.imagen : 'img/sin_imagen.jpg';
+
             html += `
                 <tr>
-                    <td>${item.numero} (${item.categoria})</td>
-                    <td>$${parseFloat(item.precio).toFixed(2)}</td>
-                    <td align="center">
-                        <button type="button" onclick="Carrito.cambiarCantidad(${item.id}, -1)">-</button>
-                        ${item.cantidad}
-                        <button type="button" onclick="Carrito.cambiarCantidad(${item.id}, 1)">+</button>
+                    <!-- Nueva columna de imagen -->
+                    <td class="col-imagen">
+                        <img src="${imgUrl}" alt="Habitación" onerror="this.src='img/sin_imagen.jpg'">
                     </td>
-                    <td>$${subtotal.toFixed(2)}</td>
-                    <td><button type="button" onclick="Carrito.eliminar(${item.id})" style="color:red">X</button></td>
+                    <td>
+                        <div class="info-hab">
+                            <strong>${item.categoria}</strong>
+                            <span class="num-hab">#${item.numero}</span>
+                        </div>
+                    </td>
+                    <td class="precio-unitario">$${parseFloat(item.precio).toFixed(2)}</td>
+                    <td align="center">
+                        <div class="controles-cantidad">
+                            <button type="button" onclick="Carrito.cambiarCantidad(${item.id}, -1)">-</button>
+                            <span>${item.cantidad}</span>
+                            <button type="button" onclick="Carrito.cambiarCantidad(${item.id}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td class="subtotal">$${subtotal.toFixed(2)}</td>
+                    <td align="center">
+                        <a href="javascript:void(0);" onclick="Carrito.eliminar(${item.id})" class="btn-eliminar" title="Eliminar">
+                            <img src="imagenes/borrar.svg" alt="Eliminar">
+                        </a>
+                    </td>
                 </tr>
             `;
         });
         tbody.innerHTML = html;
 
-        //Calcular días de estancia
+        // Cálculos de fechas (Igual que antes)
         let dias = 0;
         if (checkinInput.value && checkoutInput.value) {
             try {
-                const date1 = new Date(checkinInput.value + 'T00:00:00Z');
-                const date2 = new Date(checkoutInput.value + 'T00:00:00Z');
-                
+                const date1 = new Date(checkinInput.value + 'T00:00:00');
+                const date2 = new Date(checkoutInput.value + 'T00:00:00');
                 if (date2 > date1) {
                     const diffTime = date2.getTime() - date1.getTime();
-                    dias = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Milisegundos en un día
+                    dias = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
                 }
-            } catch(e) {
-                console.error("Error al calcular fechas:", e);
-                dias = 0;
-            }
+            } catch(e) { dias = 0; }
         }
 
         //Calcular total estancia
@@ -143,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //Validar fecha mínima de checkout al cambiar checkin
         const actualizarFechas = function() {
             if (checkin.value) {
-                const fechaCheckin = new Date(checkin.value + 'T00:00:00'); // Forzar hora local/neutra
+                const fechaCheckin = new Date(checkin.value + 'T00:00:00'); 
                 const fechaMinSalida = new Date(fechaCheckin);
                 fechaMinSalida.setDate(fechaCheckin.getDate() + 1);
                 

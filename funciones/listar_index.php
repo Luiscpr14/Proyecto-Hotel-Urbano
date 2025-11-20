@@ -76,7 +76,7 @@ function listarHabitacionesCards() {
                     
                 //Boton Agregar al Carrito
                 $ccontenido .= '            <button type="button" class="btn-carrito" ';
-                $ccontenido .= 'onclick="Carrito.agregar('.$id.', \''.$codigo.'\', '.$adatos["precio"].', \''.$categoria.'\')">';
+                $ccontenido .= 'onclick="Carrito.agregar('.$id.', \''.$codigo.'\', '.$adatos["precio"].', \''.$categoria.'\', \''.$ruta_imagen.'\')">';
                 $ccontenido .= '                Agregar';
                 $ccontenido .= '            </button>';
                 

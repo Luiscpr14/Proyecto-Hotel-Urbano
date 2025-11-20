@@ -1,0 +1,119 @@
+:root {
+    --color-primario: #D32F2F;
+    --color-secundario: #B71C1C;
+    --color-texto: #333;
+    --color-fondo: #f4f4f4;
+    --blanco: #ffffff;
+    --gris-claro: #ccc;
+    --gris-hover: #e0e0e0;
+    --sombra: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-fondo);
+    margin: 0;
+    height: 100vh; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+.login-card {
+    background-color: var(--blanco);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px var(--sombra);
+    width: 100%;
+    max-width: 400px; 
+    text-align: center;
+}
+
+.login-card h1 {
+    color: var(--color-primario);
+    margin-bottom: 30px;
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin-top: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--color-texto);
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--gris-claro);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: var(--color-primario);
+    outline: none;
+}
+
+input[type="submit"] {
+    background-color: var(--color-primario);
+    color: var(--blanco);
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--color-secundario);
+}
+
+.btn-volver {
+    display: block;
+    margin-top: 15px;
+    padding: 12px;
+    background-color: transparent;
+    color: #666;
+    border: 1px solid var(--gris-claro);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.btn-volver:hover {
+    background-color: var(--gris-hover);
+    color: var(--color-texto);
+    border-color: #bbb;
+}
+
+.error {
+    background-color: #ffebee;
+    color: var(--color-primario);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border: 1px solid #ffcdd2;
+    font-size: 0.9rem;
+}
