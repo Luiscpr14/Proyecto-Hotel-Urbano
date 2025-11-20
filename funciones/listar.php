@@ -142,12 +142,11 @@ function listarPorCategoria() {
                 $ccontenido .= '<div class="card-precio">$' . $precio . '</div>';
                 $ccontenido .= '<small>Capacidad: ' . htmlspecialchars($capacidad) . ' personas</small>';
                 $ccontenido .= '<br><small>Disponibles: ' . htmlspecialchars($disponibles) . ' cuartos</small>';
-                /* Descripción oculta
+                //Descripción oculta
                 $ccontenido .= '<div class="card-desc" id="desc-' . $id . '">';
                 $ccontenido .= '<p>' . htmlspecialchars($descripcion) . '</p>';
                 $ccontenido .= '</div>';
                 $ccontenido .= '</div>';
-                */
                 // Botones
                 $ccontenido .= '<div class="card-actions">';
                 // Botón Ver Detalles
