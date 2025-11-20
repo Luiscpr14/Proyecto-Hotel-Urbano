@@ -128,7 +128,7 @@ function listarPorCategoria() {
                     $ruta_imagen = "imagenes/habitaciones/sin_imagen.jpg";
                 }
 
-                // RENDERIZADO DE LA TARJETAxdxd
+                // RENDERIZADO DE LA TARJETAxd
                 $ccontenido .= '<div class="habitacion-card">';
                 // Imagen
                 $ccontenido .= '<div class="card-imagen">';
@@ -148,7 +148,7 @@ function listarPorCategoria() {
                 // Botones
                 $ccontenido .= '<div class="card-actions">';
                 // Botón Ver Detalles
-                $ccontenido .= '<button type="button" class="btn-detalles" onclick="abrirModalDetalles(' . $id . ', \'' . htmlspecialchars($codigo) . '\', \'' . htmlspecialchars($cnombre_categoria) . '\', ' . $precio . ', ' . $capacidad . ', \'' . $descripcion . '\', \'' . htmlspecialchars($ruta_imagen) . '\')">';
+                $ccontenido .= '<button type="button" class="btn-detalles" onclick="abrirModalDetalles(' . $id . ', \'' . htmlspecialchars($codigo) . '\', \'' . htmlspecialchars($cnombre_categoria) . '\', ' . $adatos['precio'] . ', ' . $capacidad . ', \'' . $descripcion . '\', \'' . htmlspecialchars($ruta_imagen) . '\')">';
                 $ccontenido .= 'Ver Detalles';
                 $ccontenido .= '</button>';
                 // Botón Agregar al Carrito

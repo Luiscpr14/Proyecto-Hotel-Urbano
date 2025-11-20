@@ -70,11 +70,11 @@ include_once("config.inc.php");
             <input type="hidden" name="datos_reserva" id="datos_reserva_input">
             
             <br><br>
-            <button type="submit" style="padding:10px 20px; font-size:16px; cursor:pointer;">Confirmar y Pagar</button>
-            <input type="button" name="btn_cancelar" value="Cancelar" onclick="window.location.href='admin/gestionar_habitaciones.php';">
+            <input type="submit" name="btn_confpag" style="padding:10px 20px; font-size:16px; cursor:pointer;" value="Confirmar y pagar"> 
+            <input type="button" name="btn_cancelar" value="Cancelar" onclick="window.location.href='index.php';">
         </form>
     </main>
-
-    </body>
+</body>
 <script src="js/carrito.js"></script>
+<script src="js/validaciones.js"></script>
 </html>

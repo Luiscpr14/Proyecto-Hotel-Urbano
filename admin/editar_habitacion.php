@@ -29,7 +29,7 @@ $adatos = recuperarInfoHabitacion($_GET['id_habitacion']);
     <main>
         <h2>Editar habitaciones código: <?php echo $adatos['codigo']; ?></h2>
 
-        <form action="editar_habitacion.php" method="POST" enctype="multipart/form-data" onsubmit="return validarFormularioEditar();">
+        <form id="editar_form" action="editar_habitacion.php" method="POST" enctype="multipart/form-data">
         <!-- Campo oculto con el ID -->
             <input type="hidden" name="hdn_id" value="<?php echo $adatos['id_habitacion']; ?>">
             

@@ -24,8 +24,7 @@ validarAdmin();
         <a href="../funciones/logout.php" >Cerrar Sesión</a>
     </nav>
     <main>
-        <h2>Bienvenido, administrador <?php echo $_SESSION["cnombre_usuario"]; ?>!</h2>
-    
+        <h2>Bienvenido, administrador(a) <?php echo $_SESSION["cnombre_usuario"]; ?>!</h2>
         <a href="crear_habitacion.php">Agregar Habitación</a>
 
         <h3>Habitaciones</h3>

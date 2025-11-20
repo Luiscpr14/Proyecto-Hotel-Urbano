@@ -27,7 +27,7 @@ validarAdmin();
     
     <hr>
     <main>
-        <form name="frm_agregar" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data" onsubmit="return validarFormularioCrear();">
+        <form id="crear_form" name="frm_agregar" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
             <p align="center" class="estado"><?php echo agregarHabitacion(); ?></p>
             <table>
                 <tr>

@@ -1,15 +1,3 @@
-// Validar que solo se permitan números positivos en inputs numéricos
-function validarNumerosPositivos(input) {
-    input.addEventListener('input', function() {
-        // Quitar caracteres que no sean dígitos
-        this.value = this.value.replace(/[^0-9.]/g, '');
-        // Evitar que comience con punto
-        if (this.value.startsWith('.')) {
-            this.value = '';
-        }
-    });
-}
-
 // Validar que solo se permitan caracteres alfanuméricos y espacios en campos de texto
 function validarTexto(input) {
     input.addEventListener('input', function() {
@@ -17,26 +5,32 @@ function validarTexto(input) {
         this.value = this.value.replace(/[^a-zA-Z0-9áéíóúñ\s]/g, '');
     });
 }
+let editar = document.querySelector('#editar_form');
+editar.addEventListener('submit', validarFormularioEditar);
 
-// Confirmar acciones (Eliminar, Editar)
-function confirmarAccion(mensaje) {
-    return confirm(mensaje);
-}
+let crear = document.querySelector('#crear_form');
+crear.addEventListener('submit', validarFormularioCrear);
+
+let confpag = document.querySelector('.form-fechas');
+confpag.addEventListener('submit', function(event) {
+    if (!validarConfPag()) {
+        event.preventDefault(); // Detiene el envío si el usuario cancela
+    }
+});
 
 function validarFormularioCrear() {
     return confirm('¿Deseas agregar estas nuevas habitaciones?');
 }
 
 function validarFormularioEditar(){
-    return confirm('¿Deseas editar estas habitaciones?')
+    return confirm('¿La información editar es correcta?');
+}
+
+function validarConfPag(){
+    return confirm('Al aceptar y pagar, usted acepta nuestros términos y condiciones');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Buscar todos los inputs numéricos y aplicar validación
-    const inputsNumericos = document.querySelectorAll('input[type="number"]');
-    inputsNumericos.forEach(input => {
-        validarNumeroPositivo(input);
-    });
     // Buscar todos los inputs de texto y aplicar validación
     const inputsTexto = document.querySelectorAll('input[type="text"]');
     inputsTexto.forEach(input => {
