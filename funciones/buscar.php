@@ -1,29 +1,48 @@
 <?php
 include_once("acceso_bd.php");
+
 function buscarHabitaciones(){
-// Procesar búsqueda (acepta tanto GET como POST)
+    // Procesar búsqueda (acepta tanto GET como POST)
     if (isset($_GET['termino']) || isset($_POST['txt_termino'])) {
         
         $pconexion = abrirConexion();
         seleccionarBaseDatos($pconexion);
         
-        // Obtener término de búsqueda (GET desde index.php o POST desde el mismo buscar.php)
+        // Obtener término de búsqueda
         if (isset($_GET['termino'])) {
             $termino_busqueda = mysqli_real_escape_string($pconexion, $_GET['termino']);
         } else {
             $termino_busqueda = mysqli_real_escape_string($pconexion, $_POST['txt_termino']);
         }
         
-        //$mostrar_resultados = true;
+        // Dividir el término en palabras clave individuales
+        $palabras = array_filter(explode(' ', trim($termino_busqueda)));
         
-        // Búsqueda en múltiples campos
-        $cquery = "SELECT id_habitacion, codigo, categoria, precio, capacidad, disponibles, descripcion, imagen";
+        if (empty($palabras)) {
+            $ccontenido = "<tr><td colspan='15' align='center'>Por favor ingresa un término de búsqueda válido.</td></tr>";
+            cerrarConexion($pconexion);
+            return $ccontenido;
+        }
+        
+        // Construir condición WHERE con todas las palabras
+        $condiciones = array();
+        foreach ($palabras as $palabra) {
+            $palabra_segura = mysqli_real_escape_string($pconexion, $palabra);
+            $condiciones[] = "(LOWER(CONCAT(codigo, ' ', categoria, ' ', descripcion)) LIKE LOWER('%$palabra_segura%'))";
+        }
+        
+        $where = implode(' AND ', $condiciones);
+        
+        // Construir query con puntuación de relevancia
+        $cquery = "SELECT id_habitacion, codigo, categoria, precio, capacidad, disponibles, descripcion, imagen,";
+        $cquery .= " CASE";
+        $cquery .= " WHEN LOWER(codigo) = LOWER('$termino_busqueda') THEN 100";
+        $cquery .= " WHEN LOWER(categoria) LIKE LOWER('$termino_busqueda%') THEN 80";
+        $cquery .= " WHEN LOWER(descripcion) LIKE LOWER('$termino_busqueda%') THEN 60";
+        $cquery .= " ELSE 1 END as relevancia";
         $cquery .= " FROM habitaciones";
-        $cquery .= " WHERE activo = 1";
-        $cquery .= " AND (codigo LIKE '%$termino_busqueda%'";
-        $cquery .= " OR categoria LIKE '%$termino_busqueda%'";
-        $cquery .= " OR descripcion LIKE '%$termino_busqueda%')";
-        $cquery .= " ORDER BY categoria";
+        $cquery .= " WHERE activo = 1 AND ($where)";
+        $cquery .= " ORDER BY relevancia DESC, categoria, codigo";
         
         $lresultado_busqueda = mysqli_query($pconexion, $cquery);
         
@@ -31,9 +50,11 @@ function buscarHabitaciones(){
             die("Error en búsqueda: " . mysqli_error($pconexion));
         }
         
+        $ccontenido = "";
+        
         if (mysqli_num_rows($lresultado_busqueda) > 0){
             while ($habitacion = mysqli_fetch_array($lresultado_busqueda, MYSQLI_ASSOC)) {
-                $ccontenido = "<tr>";
+                $ccontenido .= "<tr>";
                 $ccontenido .= "<td align='center'><strong>".htmlspecialchars($habitacion['codigo'])."</strong></td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
                 $ccontenido .= "<td>". htmlspecialchars($habitacion['categoria'])."</td>";
@@ -49,26 +70,21 @@ function buscarHabitaciones(){
                 $ccontenido .= "<td>". htmlspecialchars($habitacion['descripcion'])."</td>";
                 $ccontenido .= "<td width='10'>&nbsp;</td>";
                 $ccontenido .= "<td><button type='button' class='btn-reservar' ";
-                $ccontenido .= "onclick=\"Carrito.agregar(".$habitacion['id_habitacion'].", '".$habitacion['codigo']."', ".$habitacion['precio'].", '".$habitacion['categoria']."')\">";
+                $ccontenido .= "onclick=\"Carrito.agregar(".$habitacion['id_habitacion'].", '".htmlspecialchars($habitacion['codigo'])."', ".$habitacion['precio'].", '".htmlspecialchars($habitacion['categoria'])."')\">";
                 $ccontenido .= "Agregar al Carrito";
                 $ccontenido .= "</button></td>";
-
-
                 $ccontenido .= "</tr>";
             }
         }
         else {
-            $ccontenido = "<tr><td colspan='15' align='center'>No se encontraron habitaciones que coincidan con el término de búsqueda.</td></tr>";
-            $ccontenido .= "</td></tr>";
+            $ccontenido = "<tr><td colspan='15' align='center'>No se encontraron habitaciones que coincidan con tu búsqueda.</td></tr>";
         }
 
         mysqli_free_result($lresultado_busqueda);
         cerrarConexion($pconexion);
     }
     else {
-        $ccontenido = "<div>";
-        $ccontenido .= "<h3>Utiliza el buscador de arriba para encontrar habitaciones.</h3>";
-        $ccontenido .= "</div>";
+        $ccontenido = "<tr><td colspan='15' align='center'>Utiliza el buscador para encontrar habitaciones.</td></tr>";
     }
 
     return $ccontenido;
