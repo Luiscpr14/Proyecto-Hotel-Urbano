@@ -1,0 +1,149 @@
+:root {
+    --color-primario: #D32F2F;
+    --color-secundario: #B71C1C;
+    --color-texto: #333;
+    --color-gris-texto: #606060; /* Color gris tipo YouTube */
+    --blanco: #ffffff;
+}
+
+/* Contenedor principal de resultados */
+.lista-resultados {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* TARJETA TIPO YOUTUBE */
+.resultado-item {
+    display: flex;
+    background-color: var(--blanco);
+    border: 1px solid #e0e0e0; /* Borde sutil */
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+    text-decoration: none; /* Por si envuelves todo en un <a> */
+    color: inherit;
+}
+
+.resultado-item:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* IMAGEN (Izquierda) */
+.resultado-imagen {
+    flex: 0 0 360px; /* Ancho fijo similar a thumbnails grandes */
+    max-width: 40%;  /* Para que no rompa en pantallas medianas */
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+.resultado-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta la imagen para llenar el espacio */
+    display: block;
+    min-height: 200px;
+}
+
+/* CONTENIDO (Derecha) */
+.resultado-info {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Títulos y Textos */
+.resultado-titulo {
+    font-size: 1.4rem;
+    margin: 0 0 10px 0;
+    color: var(--color-texto);
+}
+
+.resultado-meta {
+    font-size: 0.9rem;
+    color: var(--color-gris-texto);
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.meta-tag {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.meta-tag i {
+    color: var(--color-primario);
+}
+
+.resultado-precio {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-primario);
+}
+
+.resultado-desc {
+    font-size: 0.95rem;
+    color: var(--color-gris-texto);
+    margin-bottom: 20px;
+    line-height: 1.5;
+    
+    /* Limitar a 3 lineas y poner ... si es muy largo */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* BOTONES */
+.resultado-acciones {
+    margin-top: auto; /* Empuja los botones al final del contenedor */
+    display: flex;
+    gap: 10px;
+}
+
+.btn-resultado {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-agregar {
+    background-color: var(--color-primario);
+    color: white;
+}
+
+.btn-agregar:hover {
+    background-color: var(--color-secundario);
+}
+
+/* RESPONSIVE (Móvil) */
+@media (max-width: 768px) {
+    .resultado-item {
+        flex-direction: column; /* Imagen arriba, texto abajo */
+    }
+
+    .resultado-imagen {
+        flex: auto;
+        max-width: 100%;
+        height: 200px;
+    }
+    
+    .resultado-acciones {
+        flex-direction: column;
+    }
+    
+    .btn-resultado {
+        width: 100%;
+    }
+}

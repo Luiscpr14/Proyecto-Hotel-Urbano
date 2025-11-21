@@ -24,7 +24,7 @@ validarAdmin();
     </header>
     <nav>
         <a href="../index.php">Ir al Sitio Web</a>
-        <a href="../funciones/logout.php" onclick="return confirm('¿Cerrar sesión?');">Cerrar Sesi&oacute;n <i class="fa fa-sign-out-alt" style="margin-left:5px;"></i></a>
+        <a href="../funciones/logout.php" onclick="return confirm('¿Cerrar sesión?');">Cerrar Sesi&oacute;n <i class="fas fa-sign-out-alt"></i></a>
     </nav>
     <main>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
