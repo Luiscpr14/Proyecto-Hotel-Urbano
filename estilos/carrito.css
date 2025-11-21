@@ -1,0 +1,222 @@
+:root {
+    --color-primario: #D32F2F; /*Rojo del header*/
+    --color-secundario: #B71C1C; /*Rojo mas oscuro para hover*/
+    --color-texto: #333;
+    --color-fondo: #f4f4f4;
+    --blanco: #ffffff;
+    --gris-claro: #e0e0e0;
+}
+
+.contenedor-carrito {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+}
+
+.contenedor-carrito h2 {
+    color: var(--color-primario, #D32F2F);
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.tabla-responsive {
+    overflow-x: auto;
+}
+
+table.carrito {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    margin-bottom: 30px;
+}
+
+table.carrito thead th {
+    color: #777;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 10px 20px;
+    border: none;
+    text-align: left;
+    letter-spacing: 1px;
+}
+
+table.carrito tbody tr {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+table.carrito tbody tr:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+}
+
+table.carrito td {
+    padding: 20px;
+    vertical-align: middle;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+table.carrito tbody tr td:first-child {
+    border-left: 1px solid #eee;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+table.carrito tbody tr td:last-child {
+    border-right: 1px solid #eee;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.col-imagen img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+.info-hab strong {
+    display: block;
+    font-size: 1.1rem;
+    color: #333;
+}
+.num-hab {
+    font-size: 0.9rem;
+    color: #888;
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.precio-unitario, .subtotal {
+    font-weight: bold;
+    color: #555;
+}
+
+.subtotal {
+    color: var(--color-primario, #D32F2F);
+    font-size: 1.1rem;
+}
+
+.controles-cantidad {
+    display: inline-flex;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.controles-cantidad button {
+    background: #fff;
+    border: 1px solid #ddd;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.controles-cantidad button:hover {
+    background: var(--color-primario, #D32F2F);
+    color: #fff;
+    border-color: var(--color-primario, #D32F2F);
+}
+
+.controles-cantidad span {
+    margin: 0 12px;
+    font-weight: bold;
+    min-width: 15px;
+    text-align: center;
+}
+
+.btn-eliminar img {
+    width: 24px;
+    opacity: 0.6;
+    transition: 0.2s;
+}
+.btn-eliminar:hover img {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Footer Totales */
+.total-row td {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+}
+
+.total-final td {
+    border-top: 2px solid #eee;
+    padding-top: 20px;
+    font-size: 1.3rem;
+    color: #333;
+}
+
+.total-final span {
+    color: var(--color-primario, #D32F2F);
+}
+
+/* Formulario */
+.form-fechas {
+    background: #f9fafb;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.fechas-flex {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.grupo-fecha {
+    flex: 1;
+}
+
+.grupo-fecha input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 5px;
+}
+
+.btn-confirmar {
+    width: 100%;
+    background-color: var(--color-primario, #D32F2F);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-confirmar:hover {
+    background-color: #B71C1C;
+}
+
+.alerta-login {
+    text-align: center;
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 6px;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}

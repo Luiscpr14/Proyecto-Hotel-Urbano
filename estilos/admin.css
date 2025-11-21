@@ -1,0 +1,153 @@
+:root {
+    --color-primario: #D32F2F;
+    --color-secundario: #B71C1C;
+    --color-texto: #333;
+    --color-fondo: #f4f4f4;
+    --blanco: #ffffff;
+    --gris-claro: #e0e0e0;
+    --azul-admin: #1976D2;
+}
+
+/*CONTENEDOR PRINCIPAL*/
+main {
+    width: 95%;
+    max-width: 1200px;
+    margin: 30px auto;
+    background: var(--blanco);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+h2 {
+    color: var(--color-primario);
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+/*TABLAS DE GESTION*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th {
+    background-color: #f8f9fa;
+    color: #555;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 12px;
+    border-bottom: 2px solid #ddd;
+    text-align: left;
+}
+
+table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+table tr:hover {
+    background-color: #f9f9f9;
+}
+
+table img {
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+#editar_icono, #eliminar_icono {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s;
+    margin: 0 5px;
+}
+#editar_icono:hover, #eliminar_icono:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.btn-accion {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--azul-admin);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-bottom: 15px;
+}
+
+.btn-accion:hover {
+    background-color: #1565C0;
+}
+
+.btn-volver {
+    background-color: #757575;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+}
+
+.btn-volver:hover {
+    background-color: #616161;
+}
+
+/*FORMULARIOS*/
+form table {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+form table td {
+    border: none;
+    padding: 10px;
+}
+
+form label {
+    font-weight: bold;
+    color: var(--color-texto);
+    display: block;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+form input[type="submit"] {
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+form input[type="submit"]:hover {
+    background-color: var(--color-secundario);
+}
+
+.estado {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    border: 1px solid #c8e6c9;
+}
