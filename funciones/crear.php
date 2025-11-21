@@ -3,7 +3,7 @@ include_once("acceso_bd.php");
 function agregarHabitacion(){
 
     $cmensaje= "";
-    if(isset($_POST["btn_agregar"]) && $_POST["btn_agregar"] == "Agregar Habitación"){
+    if(isset($_POST["btn_agregar"]) && $_POST["btn_agregar"] == "Guardar Habitación"){
 
         $ccodigo = $_POST["txt_codigo"];
         $ccategoria = $_POST["slct_categoria"];

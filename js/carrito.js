@@ -106,13 +106,13 @@ const Carrito = {
             totalPorNoche += subtotal;
             
             // Fallback por si es un item antiguo sin imagen
-            let imgUrl = item.imagen ? item.imagen : 'img/sin_imagen.jpg';
+            let imgUrl = item.imagen ? item.imagen : 'imagenes/habitaciones/sin_imagen.jpg';
 
             html += `
                 <tr>
                     <!-- Nueva columna de imagen -->
                     <td class="col-imagen">
-                        <img src="${imgUrl}" alt="Habitación" onerror="this.src='img/sin_imagen.jpg'">
+                        <img src="${imgUrl}" alt="Habitación" onerror="this.src='imagenes/habitaciones/sin_imagen.jpg'">
                     </td>
                     <td>
                         <div class="info-hab">

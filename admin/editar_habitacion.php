@@ -41,7 +41,7 @@ $adatos = recuperarInfoHabitacion($_GET['id_habitacion']);
             <table>
                 <tr>
                     <td><label for="codigo">C&oacute;digo:</label></td>
-                    <td><input type="text" id="codigo" name="txt_codigo" value="<?php echo htmlspecialchars($adatos['codigo']); ?>" required></td>
+                    <td><input type="text" id="codigo" name="txt_codigo" value="<?php echo htmlspecialchars($adatos['codigo']); ?>" required placeholder="Ej: SVJR5" maxlength="5"></td>
                 </tr>
                 <tr>
                     <td><label for="categoria">Categor&iacute;a:</label></td>
@@ -94,7 +94,6 @@ $adatos = recuperarInfoHabitacion($_GET['id_habitacion']);
                     <td colspan="2">
                         <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
                         <input type="submit" name="btn_editar" value="Guardar Cambios">
-                        <input type="button" name="btn_cancelar" value="Cancelar" onclick="window.location.href='gestionar_habitaciones.php';">
                     </td>
                 </tr>
             </table>
