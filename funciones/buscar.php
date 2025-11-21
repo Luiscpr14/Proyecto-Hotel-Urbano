@@ -19,9 +19,8 @@ function buscarHabitaciones(){
         $palabras = array_filter(explode(' ', trim($termino_busqueda)));
         
         if (empty($palabras)) {
-            $ccontenido = "<tr><td colspan='15' align='center'>Por favor ingresa un término de búsqueda válido.</td></tr>";
             cerrarConexion($pconexion);
-            return $ccontenido;
+            return "<div class='alerta-info'>Por favor ingresa un término de búsqueda válido.</div>";
         }
         
         // Construir condición WHERE con todas las palabras
@@ -53,38 +52,56 @@ function buscarHabitaciones(){
         $ccontenido = "";
         
         if (mysqli_num_rows($lresultado_busqueda) > 0){
+            $ccontenido .= '<div class="lista-resultados">';
+
             while ($habitacion = mysqli_fetch_array($lresultado_busqueda, MYSQLI_ASSOC)) {
-                $ccontenido .= "<tr>";
-                $ccontenido .= "<td align='center'><strong>".htmlspecialchars($habitacion['codigo'])."</strong></td>";
-                $ccontenido .= "<td width='10'>&nbsp;</td>";
-                $ccontenido .= "<td>". htmlspecialchars($habitacion['categoria'])."</td>";
-                $ccontenido .= "<td width='10'>&nbsp;</td>";
-                $ccontenido .= "<td><strong>$". number_format($habitacion['precio'], 2)."</strong></td>";
-                $ccontenido .= "<td width='10'>&nbsp;</td>";
-                $ccontenido .= "<td align='center'>".$habitacion['capacidad']." persona(s)</td>";
-                $ccontenido .= "<td width='10'>&nbsp;</td>";
-                $ccontenido .= "<td align='center'>".$habitacion['disponibles']."</td>";    
-                $ccontenido .= "<td width='10'>&nbsp;</td>";
-                $ccontenido .= "<td><img src='imagenes/habitaciones/".htmlspecialchars($habitacion['imagen'])."' width='100' alt='Imagen habitación'></td>";
-                $ccontenido .= "<td width='10'>&nbsp;</td>";
-                $ccontenido .= "<td>". htmlspecialchars($habitacion['descripcion'])."</td>";
-                $ccontenido .= "<td width='10'>&nbsp;</td>";
-                $ccontenido .= "<td><button type='button' class='btn-reservar' ";
-                $ccontenido .= "onclick=\"Carrito.agregar(".$habitacion['id_habitacion'].", '".htmlspecialchars($habitacion['codigo'])."', ".$habitacion['precio'].", '".htmlspecialchars($habitacion['categoria'])."')\">";
-                $ccontenido .= "Agregar al Carrito";
-                $ccontenido .= "</button></td>";
-                $ccontenido .= "</tr>";
+                
+                $id = $habitacion['id_habitacion'];
+                $codigo = htmlspecialchars($habitacion['codigo']);
+                $categoria = htmlspecialchars($habitacion['categoria']);
+                $precio = number_format($habitacion['precio'], 2);
+                $capacidad = $habitacion['capacidad'];
+                $disponibles = $habitacion['disponibles'];
+                $desc = htmlspecialchars($habitacion['descripcion']);
+                $imagen = $habitacion['imagen'];
+                $ruta_imagen = "imagenes/habitaciones/" . $imagen;
+                if (empty($imagen)) { $ruta_imagen = "imagenes/habitaciones/sin_imagen.jpg"; }
+
+                $ccontenido .= '<div class="resultado-item">';
+                $ccontenido .= '  <div class="resultado-imagen">';
+                $ccontenido .= '    <img src="'.$ruta_imagen.'" alt="'.$codigo.'" onerror="this.src=\'imagenes/habitaciones/sin_imagen.jpg\'">';
+                $ccontenido .= '  </div>';
+                $ccontenido .= '  <div class="resultado-info">';
+                $ccontenido .= '    <h3 class="resultado-titulo">'.$categoria.' - '.$codigo.'</h3>';
+                $ccontenido .= '    <div class="resultado-meta">';
+                $ccontenido .= '      <span class="resultado-precio">$'.$precio.' MXN</span>';
+                $ccontenido .= '      <span class="meta-tag"><i class="fa fa-users"></i> '.$capacidad.' pers.</span>';
+                $ccontenido .= '      <span class="meta-tag"><i class="fa fa-door-open"></i> '.$disponibles.' disp.</span>';
+                $ccontenido .= '    </div>';
+                $ccontenido .= '    <p class="resultado-desc">'.$desc.'</p>';
+                $ccontenido .= '    <div class="resultado-acciones">';
+                $ccontenido .= '      <button type="button" class="btn-resultado btn-agregar" ';
+                $ccontenido .= 'onclick="Carrito.agregar('.$id.', \''.$codigo.'\', '.$habitacion['precio'].', \''.$categoria.'\', \''.$ruta_imagen.'\')">';
+                $ccontenido .= '        <i class="fa fa-cart-plus"></i> Agregar al Carrito';
+                $ccontenido .= '      </button>';
+                $ccontenido .= '    </div>';
+                $ccontenido .= '  </div>'; //Fin resultado-info
+                $ccontenido .= '</div>'; //Fin resultado-item
             }
+            $ccontenido .= '</div>'; //Fin lista-resultados
         }
         else {
-            $ccontenido = "<tr><td colspan='15' align='center'>No se encontraron habitaciones que coincidan con tu búsqueda.</td></tr>";
+            $ccontenido = "<div style='text-align:center; padding:40px;'>";
+            $ccontenido .= "<h3>No encontramos coincidencias</h3>";
+            $ccontenido .= "<p>Intenta con palabras más generales como 'Doble' o 'Suite'.</p>";
+            $ccontenido .= "</div>";
         }
 
         mysqli_free_result($lresultado_busqueda);
         cerrarConexion($pconexion);
     }
     else {
-        $ccontenido = "<tr><td colspan='15' align='center'>Utiliza el buscador para encontrar habitaciones.</td></tr>";
+        $ccontenido = "<div class='alerta-info'>Utiliza el buscador para encontrar habitaciones.</div>";
     }
 
     return $ccontenido;

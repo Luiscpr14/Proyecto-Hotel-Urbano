@@ -34,7 +34,7 @@ $tipo_usuario = $_SESSION['ctipo_usuario'] ?? 'visitante';
         <a href="carrito.php" class="activo">Mi Carrito <i class="fa fa-shopping-cart"></i></a>
         
         <?php if ($sesion_activa): ?>
-            <a href="funciones/logout.php" onclick="return confirm('¿Cerrar sesión?');">Cerrar Sesi&oacute;n<i class="fa fa-sign-out-alt" style="margin-left:5px;"></i></a>
+            <a href="funciones/logout.php" onclick="return confirm('¿Cerrar sesión?');">Cerrar Sesi&oacute;n<i class="fas fa-sign-out-alt"></i></a>
         <?php else: ?>
             <a href="login.php">Iniciar Sesi&oacute;n</a>
         <?php endif; ?>
