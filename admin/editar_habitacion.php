@@ -13,79 +13,86 @@ $adatos = recuperarInfoHabitacion($_GET['id_habitacion']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Habitaci&oacute;n - Hotel Urbano</title>
+    <link rel="stylesheet" href="../estilos/admin.css">
     <link rel="stylesheet" href="../estilos/generales.css">
     <link rel="icon" href="../imagenes/favicon.ico" type="image/x-icon">
-    <title>Edición</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>Editar habitación</h1>
+        <h1>Hotel Urbano <span style="font-size:0.6em; color:#666;">| Administraci&oacute;n</span></h1>
     </header>
     <nav>
-        <a href="gestionar_habitaciones.php">Volver a gestión</a>
-        <a href="../index.php">Inicio</a>
-        <a href="../funciones/logout.php" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?');">Cerrar Sesión</a>
+        <a href="../index.php">Ir al Sitio Web</a>
+        <a href="../funciones/logout.php" onclick="return confirm('¿Cerrar sesión?');">Cerrar Sesi&oacute;n<i class="fa fa-sign-out-alt" style="margin-left:5px;"></i></a>
     </nav>
     <main>
-        <h2>Editar habitaciones código: <?php echo $adatos['codigo']; ?></h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>Editar Habitación: <?php echo isset($adatos['codigo']) ? $adatos['codigo'] : ''; ?></h2>
+            <!-- Botón Volver en el cuerpo -->
+            <a href="gestionar_habitaciones.php" class="btn-accion btn-volver"><i class="fa fa-arrow-left"></i> Volver al listado</a>
+        </div>
 
         <form id="editar_form" action="editar_habitacion.php" method="POST" enctype="multipart/form-data">
-        <!-- Campo oculto con el ID -->
+            <!-- Campo oculto con el ID -->
             <input type="hidden" name="hdn_id" value="<?php echo $adatos['id_habitacion']; ?>">
             
             <table>
                 <tr>
-                    <td><label for="codigo">Código de habitaciones:</label></td>
-                    <td><input type="text" id="codigo" name="txt_codigo" value="<?php echo ($adatos['codigo']); ?>" required></td>
+                    <td><label for="codigo">C&oacute;digo:</label></td>
+                    <td><input type="text" id="codigo" name="txt_codigo" value="<?php echo htmlspecialchars($adatos['codigo']); ?>" required></td>
                 </tr>
                 <tr>
-                    <td><label for="categoria">Categoría:</label></td>
+                    <td><label for="categoria">Categor&iacute;a:</label></td>
                     <td>
                         <select id="categoria" name="txt_categoria" required>
-                            <option value="">Seleccione una categoría</option>
+                            <option value="">Seleccione una categor&iacute;a</option>
                             <option value="Sencilla" <?php echo ($adatos['categoria'] == 'Sencilla') ? 'selected' : ''; ?>>Sencilla</option>
                             <option value="Doble" <?php echo ($adatos['categoria'] == 'Doble') ? 'selected' : ''; ?>>Doble</option>
                             <option value="Suite" <?php echo ($adatos['categoria'] == 'Suite') ? 'selected' : ''; ?>>Suite</option>
-                            <option value="Ejecutiva" <?php echo ($adatos['categoria'] == 'Ejecutiva') ? 'selected' : ''; ?>>Suite Ejecutiva</option>
+                            <option value="Ejecutiva" <?php echo ($adatos['categoria'] == 'Ejecutiva') ? 'selected' : ''; ?>>Ejecutiva</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="precio">Precio por noche (MXN):</label></td>
+                    <td><label for="precio">Precio (MXN):</label></td>
                     <td><input type="number" id="precio" name="txt_precio" step="0.01" min="0" value="<?php echo $adatos['precio']; ?>" required></td>
                 </tr>
                 <tr>
-                    <td><label for="capacidad">Capacidad (personas):</label></td>
+                    <td><label for="capacidad">Capacidad:</label></td>
                     <td><input type="number" id="capacidad" name="txt_capacidad" min="1" value="<?php echo $adatos['capacidad']; ?>" required></td>
                 </tr>
                 <tr>
-                    <td><label for="disponibles">Cuartos disponibles:</label></td>
+                    <td><label for="disponibles">Disponibles:</label></td>
                     <td>
                         <input type="number" id="disponibles" name="txt_disponibles" min="0" value="<?php echo $adatos['disponibles']; ?>" required>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="descripcion">Descripción:</label></td>
-                    <td><textarea id="descripcion" name="txt_descripcion" rows="4" cols="40" required><?php echo ($adatos['descripcion']); ?></textarea></td>
+                    <td><label for="descripcion">Descripci&oacute;n:</label></td>
+                    <td><textarea id="descripcion" name="txt_descripcion" rows="4" required><?php echo htmlspecialchars($adatos['descripcion']); ?></textarea></td>
                 </tr>
                 <tr>
                     <td><label>Imagen actual:</label></td>
-                    <td>
+                    <td style="padding: 15px 0;">
                         <?php if (!empty($adatos['imagen'])): ?>
-                            <img src="../imagenes/habitaciones/<?php echo ($adatos['imagen']); ?>" width="200" alt="Imagen actual">
-                            <br><small>Deja el campo vacío para mantener esta imagen</small>
+                            <div style="border:1px solid #ddd; padding:5px; display:inline-block; border-radius:4px;">
+                                <img src="../imagenes/habitaciones/<?php echo ($adatos['imagen']); ?>" width="200" style="display:block;" alt="Imagen actual">
+                            </div>
+                            <br><small style="color:#666;">Deja el campo de archivo vac&iacute;o para conservar esta imagen.</small>
                         <?php else: ?>
-                            <small>Sin imagen</small>
+                            <small>No hay imagen asignada actualmente.</small>
                         <?php endif; ?>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="imagen">Nueva imagen (opcional):</label></td>
+                    <td><label for="imagen">Cambiar imagen:</label></td>
                     <td><input type="file" id="imagen" name="fl_imagen" accept="image/*"></td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <hr>
+                        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
                         <input type="submit" name="btn_editar" value="Guardar Cambios">
                         <input type="button" name="btn_cancelar" value="Cancelar" onclick="window.location.href='gestionar_habitaciones.php';">
                     </td>

@@ -27,16 +27,16 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
     </header>
 
     <nav>
-        <a href="index.php">Inicio</a>
+        <a href="index.php" class="activo" style="background-color: var(--color-secundario);">Inicio</a>
         <?php if ($sesion_activa && $tipo_usuario == 'admin'): ?>
             <a href="admin/gestionar_habitaciones.php">Gestionar</a>
         <?php endif; ?>
         <a href="carrito.php">Mi Carrito <i class="fa fa-shopping-cart"></i></a>
         
         <?php if ($sesion_activa): ?>
-            <a href="funciones/logout.php" onclick="return confirm('¿Estás seguro?');">Cerrar Sesión</a>
+            <a href="funciones/logout.php" onclick="return confirm('¿Estás seguro?');">Cerrar Sesi&oacute;n<i class="fa fa-sign-out-alt" style="margin-left:5px;"></i></a>
         <?php else: ?>
-            <a href="login.php">Iniciar Sesión</a>
+            <a href="login.php">Iniciar Sesi&oacute;n</a>
         <?php endif; ?>
     </nav>
         
@@ -45,13 +45,13 @@ $nombre_usuario = $_SESSION['cnombre_usuario'] ?? 'Visitante';
         <!-- Alertar a visitantes de funciones restringidas -->
         <?php if (!$sesion_activa): ?>
             <div class="alerta-info" style="margin-bottom: 15px; color:#666;">
-                <p>Estás navegando como <b>visitante</b>. <a href="login.php" style="color:var(--color-primario);">Inicia sesión</a> para reservar.</p>
+                <p>Est&aacute;s navegando como <b>visitante</b>. <a href="login.php" style="color:var(--color-primario);">Inicia sesi&oacute;n</a> para reservar.</p>
             </div>
         <?php endif; ?>
 
         <!-- Form para buscar habitaciones -->
         <div class="buscador-principal">
-            <h3>Encuentra tu habitación ideal</h3>
+            <h3>Encuentra tu habitaci&oacute;n ideal</h3>
             <form id="form_busqueda" method="GET" action="resultados.php">
                 <input type="text" class="txt_busqueda" name="termino" placeholder="Buscar por categoría..." required>
                 <button type="submit" class="btn_buscar">Buscar</button>
